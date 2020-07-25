@@ -5,17 +5,21 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css.map"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/home.css"  media="screen,projection"/>
-
+    <link type="text/css" rel="stylesheet" href="/css/comum.css"  media="screen,projection"/>
+   
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
 
   <body class=" blue-grey darken-3">
    
-    <div class="row container">
-        <div class="col s2"> <img width="100" height="100" src="/img/usuarios.png"> </div>
-        <div class="col s6"><h1>Usuarios</h1></div>
+    <div class="row m-5">
+        <div class="col-4 center" > <img width="100" height="100" src="/img/usuarios.png"> </div>
+        <div class="col-8 "><h1>Usuarios</h1></div>
+
     </div>
     <div class="row">
         <div class="container ">
@@ -23,17 +27,45 @@
               <div class=" col s12">
 
                 <div class="row">
-                    <div class="col s4">
-                        <button>+</button>
+                    <div class="col-2 ">
+                        
+                        <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" onclick="limparFormulario()"  data-toggle="modal" data-target="#modalIncluir"><i class="material-icons">add</i></a>
+ 
                     </div>
-                    <div class="col s8">
+                    <div class="col-10">
                         <label>Pesquisar</label>
-                        <input type="text">
+                        <input type="text" id="pesquisaUsuarios" name="pesquisaUsuarios">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col s6">Usuarios</div>
+                    <div class="col s6">
+                        <div class="row">
+                            <di class=" cols 12">
+                              <table id="tabelaUsuarios" name='tabelaUsuarios' class="amber-text text-lighten-4 table-striped highlight table-hover responsive-table centered tbUsuarios">
+                                <thead id="cabecalhotbUsuario" name='cabecalhotbUsuario'>
+                                    <th>ID</th>
+                                    <th>USUARIO</th>
+                                    <th>EDIÇÃO</th>
+                                    <th>EXCLUIR</th>
+                                </thead>
+                                 <tbody id="corpoTabela" name='corpoTabela'>
+
+                                 </tbody> 
+                                
+                              </table>
+                            </di>
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="container">
+
+                        </div>
+
+                      
+                    </div>
                     <div class="col s6">Wbi</div>
                 </div>
                </div>
@@ -47,10 +79,98 @@
     </div>
 
 
-    
-     
-    
+    <!-- Modals -->
+
+    <!-- Formulario Inclusao -->
+    <div class="modal fade painelForm" id="modalIncluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cadastro Usuário:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form id="formUsuario" name="formUsuario" action="/usuarios/incluir" method="POST">
+              <div class="modal-body">
+              
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix">account_circle</i>
+                      <input  id="usuario" name="usuario" type="text" class="validate">
+                      <label class="active" for="usuario">Usuário</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix">vpn_key</i>
+                      <input  id="senha" name="senha" type="password" class="validate">
+                      <label class="active" for="senha">Senha</label>
+                    </div>
+                  </div>
+                  
+
+                  <div class="row">
+                    <div class="switch">
+                      <label>
+                          Não
+                          <input id="edicao" type="checkbox">
+                          <span class="lever"></span>
+                          Sim
+                      </label>
+                    <!-- <label for="edicao">Edição</label>
+
+                    <div  class="col-md-3 mb-3">
+                      <button id="btSim" class="btn">Sim</button>
+                    </div>
+
+                    <div  class="col-md-3 mb-3"> 
+                      <input type="text" class="" value="Não" id="edicao" name="edicao" required disabled="disabled">
+                    </div>
+
+                    <div  class="col-md-3 mb-3">
+                      <button id="btNao" class="btn" >Não</button>
+                    </div>
+                      -->
+                  </div>
+
+              </div>
+            </form>
+            <div class="modal-footer">
+              <div class="row container">
+                  <div  class="col-6 center-align"> 
+                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
+                </div>
+                <div class="col-3">
+                
+                  <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
+
+                </div>
+                <div  class="col-3">
+                  <button id="gravar" type='button' class="btn btn-primary">Gravar </button>
+                </div>
+
+              </div>
+              
+            
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.slim.min.js"  ></script>
+    <script type="text/javascript" src="/js/popper.min.js"  ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/js/axios.js"></script>
+    <script type="text/javascript" src="/js/controleUsuarios.js"></script>
+    <script>
+        $(document).ready(function() {
+          M.updateTextFields();
+        });
+    </script>
   </body>
 </html>

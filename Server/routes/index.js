@@ -1,4 +1,5 @@
 const rotasUsuarios = require('./rotasUsuario')
+const rotasUW = require('./rotasUsuario_Wbi')
 
 const rotas = (app) =>{
 
@@ -12,6 +13,7 @@ const rotas = (app) =>{
     })
 
    rotasUsuarios(app)
+   rotasUW(app)
 
 
 }

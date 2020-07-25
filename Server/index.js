@@ -31,13 +31,13 @@ app.use(passport.session())
 app.use(flash())
 
 //Criando variais global para mensagens
-app.use(async(req, res, next) => {
-    res.locals.success_msg = await req.flash("success_msg")
-    res.locals.error_msg = await req.flash("error_msg")
-    res.locals.error = await req.flash('error')
-    res.locals.user = await req.user || null
-    next()
-})
+// app.use((req, res) => {
+//     res.locals.success_msg =  req.flash("success_msg")
+//     res.locals.error_msg =  req.flash("error_msg")
+//     res.locals.error =  req.flash('error')
+//     res.locals.user =  req.user || null
+    
+// })
 
 
 

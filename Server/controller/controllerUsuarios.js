@@ -7,39 +7,58 @@ const passport = require('passport')
 const findAll = async() =>{
     
     try {
-        return await knex('usuarios').select('*')
+        return await knex('usuarios').select('id', 'usuario', 'edicao')
     } catch (error) {
         return error
     }
     
 } 
 
+// Pesquisa usuario por  sua id. 
 const findById = async(id) =>{
     try {
            const registro = knex('usuarios')
                             .where('id', id)
+                            .select('id', 'usuario', 'edicao')
                             .first()     
             return registro
     } catch (error) {
         return error
     }
+      
+   
 }
 
+// Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
+// Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 
 const findByUsuario = async(usuario) => {
-    try {
-        return knex('usuarios')
-        .where('usuario', 'like', `%${usuario}%`)
-      
-    } catch (error) {
-        return error
+    console.log('findByUsuario')
+    if(usuario / 1 || usuario == 0){
+        console.log('busca por inteiro')
+        let user = []
+        user.push(await findById(usuario))
+        return user
+         
+    }else{
+        try {
+            usuario = usuario.trim()
+            return await knex('usuarios')
+            .where('usuario', 'like', `%${usuario}%`)
+        
+        } catch (error) {
+            return error
+        }
     }
 }
 
+
+// Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
+// Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 
 const verificarUsuario = async(usuario) => {
-    
+    console.log('usuario em verifricarusuario: ', usuario)
     try {
          const verificacao = await knex('usuarios')
-        .where('usuario', usuario)
+        .where('usuario', 'like', `%${usuario}%`)
         .first()  
         return verificacao
     } catch (error) {
@@ -63,7 +82,8 @@ const create = async(novosdados) => {
             const ids = await knex('usuarios').insert({
             ...novosdados
         }) 
-        return ids ? true : false
+        // return ids ? true : false
+        return ids
     } catch (error) {
         console.log('Error: ', error)
         return error

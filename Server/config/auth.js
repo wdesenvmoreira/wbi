@@ -7,18 +7,23 @@ const crtlUsuario = require('../controller/controllerUsuarios')
 
 
 module.exports= function(passport){
-    
+    console.log('entrou no moduleexport')
     passport.use(new LocalStrategy({
             usernameField: 'usuario',
             passwordField: 'senha'
         },
       (usuario, senha, done)=> {
-           crtlUsuario.verificarUsuario(usuario).then((user) => {
+           crtlUsuario.verificarUsuario(usuario).then((user, err) => {
                console.log('user da verificação usuario: ', user)
                if(!user){
+                    console.log('Não identificou usuario na autenticação: ', user)
                    return done(null, false, {message: "Usuario inexistente. "})
                }
-               
+               if(err){
+                   console.log('Erro dentro do verificar usuario na autenticação: ',err)
+                   return done(null, false, {message: "Erro ao logar "+err})
+               }
+   
                bcrypt.compare(senha, user.senha, (erro, batem) => {
                    if(batem){
                        console.log('senha batem: ', batem)
