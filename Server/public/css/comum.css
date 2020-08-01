@@ -2,6 +2,16 @@ table{
     display: none;
 }
 
+table  tr{
+    font-size: 1.2rem;
+}
+
 .painelForm{
     background:#21252981;
+}
+
+.footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
 }

@@ -1,4 +1,5 @@
 const ctrlUsuarios = require('../controller/controllerUsuarios')
+const ctrlUW = require('../controller/controllerUsuarioWbi')
 const passport = require('passport')
 
 const rotaUsuario = (app) =>{
@@ -54,10 +55,10 @@ const rotaUsuario = (app) =>{
 
     app.delete('/usuarios/delete/:id',async(req, res) => {
         const deletar = await ctrlUsuarios.deletar(req.params.id)
-        if(deletar){          
+        if(deletar==1){          
            res.json(deletar) 
         }else{
-            res.json({mensagem:'registro não deletado'})
+            res.json(deletar.msg)
         }
         
     })
@@ -99,13 +100,11 @@ app.post('/usuarios/alterar', async(req, res)=>{
    
    
     )
-// app.post('/usuarios/acessar', 
-// passport.authenticate('local', { failureRedirect: '/' }),
-// function(req, res) {
-//     res.locals.user =  req.user || null
-//   res.redirect('/principal');
-// });
+
+
 }
+
+
 
 
 module.exports = rotaUsuario

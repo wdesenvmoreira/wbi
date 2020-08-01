@@ -1,10 +1,11 @@
 const rotasUsuarios = require('./rotasUsuario')
 const rotasUW = require('./rotasUsuario_Wbi')
+const rotasWBI = require('./rotasWBI')
 
 const rotas = (app) =>{
 
     app.get('/',(req, res) => {
-        res.render('home')
+        res.render('login')
     })
 
     
@@ -14,6 +15,7 @@ const rotas = (app) =>{
 
    rotasUsuarios(app)
    rotasUW(app)
+   rotasWBI(app)
 
 
 }

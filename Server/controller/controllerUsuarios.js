@@ -105,14 +105,18 @@ const update = async(id, dados) => {
 }
 
 const deletar = async(id) =>{
-
-    try {
+    if(id != 1){
+        try {
         return await knex('usuarios')
                         .where({ id })
                         .del()
-    } catch (error) {
-        return error
+        } catch (error) {
+            return error
+        }
+    }else{
+        return {"msg":'Este Usuario não pode ser excluido!'}
     }
+    
 
 }
 

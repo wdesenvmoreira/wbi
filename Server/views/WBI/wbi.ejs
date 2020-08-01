@@ -9,7 +9,7 @@
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css.map"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/home.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/comum.css"  media="screen,projection"/>
-   
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
@@ -18,7 +18,7 @@
    
     <div class="row m-5">
         <div class="col-4 center" > <img width="100" height="100" src="/img/usuarios.png"> </div>
-        <div class="col-6 "><h1>Usuarios</h1></div>
+        <div class="col-6 "><h1>WBI</h1></div>
         <div class="col-2"><h1><a href="/principal"><i class="material-icons">home</i></a></h1></div>
 
     </div>
@@ -34,60 +34,49 @@
  
                     </div>
                     <div class="col-10">
-                        <label>Pesquisar</label>
-                        <input type="text" id="pesquisaUsuarios" name="pesquisaUsuarios">
+                        <h2 class="w3-center">Manual Slideshow</h2>
+
+                        <div class="w3-content w3-display-container">
+                          <img class="mySlides" src="img_snowtops.jpg" style="width:100%">
+                          <img class="mySlides" src="img_lights.jpg" style="width:100%">
+                          <img class="mySlides" src="img_mountains.jpg" style="width:100%">
+                          <img class="mySlides" src="img_forest.jpg" style="width:100%">
+                        
+                          <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                          <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+                        </div>
+                        
+                        <script>
+                        var slideIndex = 1;
+                        showDivs(slideIndex);
+                        
+                        function plusDivs(n) {
+                          showDivs(slideIndex += n);
+                        }
+                        
+                        function showDivs(n) {
+                          var i;
+                          var x = document.getElementsByClassName("mySlides");
+                          if (n > x.length) {slideIndex = 1}
+                          if (n < 1) {slideIndex = x.length}
+                          for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";  
+                          }
+                          x[slideIndex-1].style.display = "block";  
+                        }
+                        </script>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-12"></div>
+                            <label>Pesquisar</label>
+                                <input type="text" id="pesquisaUsuarios" name="pesquisaUsuarios">
+                            </div>
+                        </div>
+                    </div>
 
                 <div class="row">
-                    <div class="col-4 container" >
-                        <div class="row">
-                            <div class=" col-12">
-                              <table id="tabelaUsuarios" name='tabelaUsuarios' class=" amber-text text-lighten-4 table-striped highlight table-hover responsive-table centered tbUsuarios">
-                                <thead id="cabecalhotbUsuario" name='cabecalhotbUsuario'>
-                                    <th>ID</th>
-                                    <th>USUARIO</th>
-                                    <th>EDIÇÃO</th>
-                                    <th>EXCLUIR</th>
-                                </thead>
-                                 <tbody id="corpoTabela" name='corpoTabela'>
-
-                                 </tbody> 
-                                
-                              </table>
-                            </di>
-
-                        </div>
-                       
-                      </div>
-                    </div>
-                    <div class="col-8 z-depth-4" id="conteudoUW" style="display:none">
-                      <div class="row">
-                        <div class="col-10 container">
-                          <h4 class="amber-text text-lighten-4 ">Relatório e Indicadores : Usuario <span id="cabecalhoUW"></span> </h4>
-                        </div>
-                        <div onclick="sairPainelUW()" class="col-2">X</div>
-                      </div>
-                      <div class="row">
-                        <di class=" col-12" >
-                          <table id="tabelaUW" name='tabelaUW' class="amber-text text-lighten-4 table-striped highlight table-hover responsive-table centered tbUsuarios">
-                            <thead id="cabecalhotbUsuario" name='cabecalhotbUsuario'>
-                                <th>ID</th>
-                                <th>WBI</th>
-                                <th>TÍTULO</th>
-                                <th>INCLUIR</th>
-                                <th>EDITAR</th>
-                                <th>EXCLUIR</th>
-                            </thead>
-                             <tbody id="corpoTabelaUW" name='corpoTabelaUW'>
-
-                             </tbody> 
-                            
-                          </table>
-                        </div>
-
-                    </div>
-                    </div>
+                  corpo
+                </div>
                
                </div>
             </div>
