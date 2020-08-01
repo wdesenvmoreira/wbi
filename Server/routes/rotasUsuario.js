@@ -93,7 +93,7 @@ app.post('/usuarios/alterar', async(req, res)=>{
                                          console.log('dentro do req local user: ', res.locals.user)
                                          //console.log('dentro do res: ', res)
                                          
-                                    res.render('home')
+                                    res.render('login')
                                 }
                                     
                         
