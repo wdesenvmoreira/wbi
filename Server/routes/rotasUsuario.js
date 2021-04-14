@@ -85,7 +85,7 @@ app.post('/usuarios/alterar', async(req, res)=>{
    app.post('/usuarios/acessar',
     passport.authenticate('local', { 
                                         successFlash : "Hey, Welcome back",
-                                        //successRedirect: '/usuarios/todos',
+                                        successRedirect: '/usuarios/todos',
                                         failureRedirect: '/',
                                         failureFlash: false ,
                                      }),(req, res)=>{
