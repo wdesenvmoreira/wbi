@@ -44,7 +44,7 @@ module.exports= function(passport){
         done(null, usuario.id)
     })
     passport.deserializeUser(async(id, done) => {
-        console.log('deserializeuser',id)
+        console.log('deserializeuser: ',id)
         await crtlUsuario.findById(id, (err, user) => {
             done(err, user)
         })
