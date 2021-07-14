@@ -31,10 +31,10 @@ async function preencherTabelaUsuarios(busca){
     const tabelaUsuarios = document.getElementById('tabelaUsuarios')
     const corpoTabela = document.getElementById('corpoTabela')
     let dados = await buscarUsuarios(busca)
-
+    console.log('dados: ',dados);
     sairPainelUW()
 
-    dados.forEach(usuario => {
+   await dados.forEach(usuario => {
         const tr = document.createElement(`tr`)
         tr.setAttribute('id',usuario.id)
         tr.innerHTML = `<td>${usuario.id}</td>
@@ -49,6 +49,7 @@ async function preencherTabelaUsuarios(busca){
                                 </label>
                             </div>
                          </td>
+                         <td onclick="alterarUW(${usuario.id})"><a><i class="material-icons prefix">password</i></a></td>
                          <td onclick="listarUW(${usuario.id})"><a><i class="material-icons prefix">apps</i></a></td>
                         <td><a onclick="deletarUsuario(${usuario.id})"><i class="material-icons prefix">delete</i></a></td>`
                     
