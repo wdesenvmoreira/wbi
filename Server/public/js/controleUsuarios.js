@@ -49,7 +49,12 @@ async function preencherTabelaUsuarios(busca){
                                 </label>
                             </div>
                          </td>
-                         <td onclick="alterarUW(${usuario.id})"><a><i class="material-icons prefix">password</i></a></td>
+                         <td >
+                            <a onclick="setarUsuarioAlterar(${usuario.id}, '${usuario.usuario}')" data-toggle="modal" data-target="#modalAlterar">
+                                <i class="material-icons prefix">password</i> 
+                            </a>
+                        </td>
+                       
                          <td onclick="listarUW(${usuario.id})"><a><i class="material-icons prefix">apps</i></a></td>
                         <td><a onclick="deletarUsuario(${usuario.id})"><i class="material-icons prefix">delete</i></a></td>`
                     
@@ -60,6 +65,12 @@ async function preencherTabelaUsuarios(busca){
 }
 
 
+function setarUsuarioAlterar(id,usuario){
+    let idAlterar = document.getElementById('idUsuarioAlterar')
+    let usuarioAlterar = document.getElementById('usuarioAlterar')
+    usuarioAlterar.innerText = usuario
+    idAlterar.value = id;
+}
 
 function limpartabela(){
     let tbody = document.getElementById('corpoTabela')
@@ -163,6 +174,36 @@ async function alterarUsuario(id){
         // preencherTabelaUsuarios(id)
     }else{
         M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Alterar o Registro ${id}. Verifique </span>`, classes: 'rounded'});
+       // limpartabela()
+       // preencherTabelaUsuarios(id)
+    }
+    
+}
+
+async function alteracaoUsuario(){
+    let edicao = document.getElementById('edicalAlteracaoUsuario').checked
+    let novasenha = document.getElementById('novasenha').value
+    let idUsuario = document.getElementById('idUsuarioAlterar').value
+    
+    let usuarios ={
+        id: idUsuario,
+        edicao: edicao,
+        senha: novasenha
+    }
+    console.log('alteração usuarios: ', usuarios)
+     let retorno = await axios.post(`http://localhost:5412/usuarios/alterar`, usuarios)
+     .then(response => response.data)
+    .catch((error) => {
+      throw error.response.data
+    })
+    console.log('retorno da alteração: ', retorno)
+    if(retorno==1){
+        // document.getElementById(`edicaoUsuario${id}`).checked=edicao
+        M.toast({html: `<span class='blue red-4' >Registro ${idUsuario} Alterado com sucesso</span>`, classes: 'rounded'});
+        // limpartabela()
+        // preencherTabelaUsuarios(id)
+    }else{
+        M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Alterar o Registro ${idUsuario}. Verifique </span>`, classes: 'rounded'});
        // limpartabela()
        // preencherTabelaUsuarios(id)
     }

@@ -99,8 +99,7 @@ const create = async(novosdados) => {
     if (!usuarioExiste) {
         try {
             const salt = bcrypt.genSaltSync()
-            novosdados.senha = bcrypt.hashSync(novosdados.senha, salt)
-            console.log('senha hash: ', novosdados.senha)   
+            novosdados.senha = bcrypt.hashSync(novosdados.senha, salt)  
             const ids = await knex('usuarios').insert({
             ...novosdados
         }) 
@@ -117,6 +116,10 @@ const create = async(novosdados) => {
 }
 
 const update = async(id, dados) => {   
+    if(dados.senha){
+        const salt = bcrypt.genSaltSync()
+        dados.senha = bcrypt.hashSync(dados.senha, salt)
+    }
     try {
         return await knex('usuarios')
                 .where({ id })
