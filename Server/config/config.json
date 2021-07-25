@@ -1,0 +1,14 @@
+{
+    "secret": "palavrasecreta",
+    "sgbd": "firebird",
+    "opcoesDBFirebird":{
+        "host": "localhost",
+        "port":  3050,                
+        "database":  "C:/Desenvolvimento/BaseDados/DATATESTE.FDB",
+        "user":  "SYSDBA",
+        "password": "masterkey",
+        "lowercase_keys": false,
+        "role": null,
+        "pageSize": 4096
+    }
+}

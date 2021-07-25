@@ -32,15 +32,16 @@ const findById = async(id) =>{
 // Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
 // Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 
 const findByUsuario = async(usuario) => {
-    console.log('findByUsuario')
+    console.log('findByUsuario: ', usuario)
     if(usuario / 1 || usuario == 0){
-        console.log('busca por inteiro')
+
         let user = []
         user.push(await findById(usuario))
         return user
          
     }else{
         try {
+
             usuario = usuario.trim()
             return await knex('usuarios')
             .where('usuario', 'like', `%${usuario}%`)
@@ -51,6 +52,26 @@ const findByUsuario = async(usuario) => {
     }
 }
 
+const findUsuario = async(usuario) => {
+
+    if(usuario / 1 || usuario == 0){
+
+        let user = []
+        user.push(await findById(usuario))
+        return user
+         
+    }else{
+        try {
+
+            usuario = usuario.trim()
+            return await knex('usuarios')
+            .where('usuario', '=', `${usuario}`)
+        
+        } catch (error) {
+            return error
+        }
+    }
+}
 
 // Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
 // Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 
@@ -68,8 +89,9 @@ const verificarUsuario = async(usuario) => {
 
 const verificaSenha = (usuario, senha) =>{
     let senhaHash = knex('usuarios').where({usuario}).select('senha')
-    console.log('dentro do verificar senha a senha: ', senhaHash)
-    return bcrypt.compareSync(senha, senhaHash)
+    console.log('bcrypt: ', bcrypt.compareSync(senha, senhaHash))
+     return bcrypt.compareSync(senha, senhaHash)
+    //return senhaHash;
 }
 const create = async(novosdados) => {   
 
@@ -77,8 +99,7 @@ const create = async(novosdados) => {
     if (!usuarioExiste) {
         try {
             const salt = bcrypt.genSaltSync()
-            novosdados.senha = bcrypt.hashSync(novosdados.senha, salt)
-            console.log('senha hash: ', novosdados.senha)   
+            novosdados.senha = bcrypt.hashSync(novosdados.senha, salt)  
             const ids = await knex('usuarios').insert({
             ...novosdados
         }) 
@@ -95,6 +116,10 @@ const create = async(novosdados) => {
 }
 
 const update = async(id, dados) => {   
+    if(dados.senha){
+        const salt = bcrypt.genSaltSync()
+        dados.senha = bcrypt.hashSync(dados.senha, salt)
+    }
     try {
         return await knex('usuarios')
                 .where({ id })
@@ -141,4 +166,4 @@ const acessar = async(usuario, senha) => {
        }))
     //senhahasheada = (encodepassword, senha) => bcrypt.compareSync(senha, encodePassword)
 }
-module.exports = { findAll, findById, create, deletar, update, findByUsuario, acessar, verificarUsuario}
+module.exports = { findAll, findById, create, deletar, update, findByUsuario, acessar, verificarUsuario, verificaSenha, findUsuario}
