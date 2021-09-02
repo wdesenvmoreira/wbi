@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chart } from 'react-google-charts'
 import Cabecalho from './Components/Cabecalho'
+import Login from './Components/Login'
 import './App.css'
 
 function App(){
@@ -11,6 +12,7 @@ function App(){
     <div className='App'>
       <header className='App-header'>
       <Cabecalho/>
+      <Login />
       <div style={{ display: 'flex', maxWidth: 400 }}>
       <Chart
     width={400}

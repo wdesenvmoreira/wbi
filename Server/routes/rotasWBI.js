@@ -1,4 +1,4 @@
-const rotasUW = require("./rotasUsuario_Wbi")
+const ctrlWBI = require('../controller/controllerWBI')
 const jwt = require('jsonwebtoken')
 const jwtSecret = 'secreta'
 
@@ -27,6 +27,19 @@ const rotasWBI = (app) => {
 
     app.get('/wbi', (req, res) => {
         res.render('WBI/wbi')
+    })
+
+    app.post('/wbi/incluir', async(req, res) => {
+        //req.body.edicao=='Sim'?req.body.edicao=true:req.body.edicao=false
+        console.log('req.body: ', req.body)
+        const wbi = { ...req.body}
+        console.log('WBI depois: ',wbi)
+        const incluir = await ctrlWBI.create(wbi)
+
+            console.log('retorno incluir: ',wbi)
+            res.json(incluir)
+        
+        
     })
 
 

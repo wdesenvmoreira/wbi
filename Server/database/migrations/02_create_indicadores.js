@@ -8,6 +8,10 @@ exports.up = async function (knex) {
                 table.string('nome').notNullable();
                 table.string('titulo').notNullable();   
                 table.string('dados').notNullable();   
+                table.string('width').notNullable();
+                table.string('height').notNullable();
+                table.string('chartType').notNullable();
+                table.string('options').notNullable();
             })
             
 }

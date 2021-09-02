@@ -4,6 +4,9 @@ const rotasWBI = require('./rotasWBI')
 const rotasAuth = require('./routerAuth')
 const rotasLogout = require('./rotasLogout')
 const rotasPrincipal = require('./rotasPrincipal')
+const rotasAPI = require('./rotasAPI')
+const rotasIndicadores = require('./rotasIndicadores')
+const rotasAPIIndicadores = require('./rotasAPIIndicadores')
 
 const jwt = require('jsonwebtoken');
 const jwtSecret = 'secreta'
@@ -22,6 +25,9 @@ const rotas = (app) =>{
    rotasWBI(app)
    rotasUsuarios(app)
    rotasUW(app)
+   rotasAPI(app)
+   rotasIndicadores(app)
+   rotasAPIIndicadores(app)
 
 }
 
