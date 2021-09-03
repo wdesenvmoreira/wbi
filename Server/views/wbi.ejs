@@ -30,7 +30,7 @@
               <!-- <div class=" col s12"> -->
                 <!-- <div class="row container"> -->
                   <div class="col-4  ">
-                    <a class="waves-effect waves-light btn container" onclick="limpartabela();preencherTabela(' ')">Indicadores</a>
+                    <a class="waves-effect waves-light btn container" onclick="preencherTabela(' ')">Indicadores</a>
                   </div>
                   <div class="col-4  ">
                     <a class="waves-effect waves-light btn container">Relatórios</a>
@@ -77,9 +77,9 @@
                                   <th>ALTURA</th>
                                   <th>TIPO INDICADOR</th>
                                   <th>OPTIONS</th>
-                                  <th>EDIÇÃO</th>
-                                  <th>USUARIOS</th>
-                                  <th>EXCLUIR</th>
+                                    <th>EDIÇÃO</th>
+                                    <th>SENHA</th>
+                                    <th>EXCLUIR</th>
                                 </thead>
                                  <tbody id="corpoTabela" name='corpoTabela'>
 
@@ -128,9 +128,9 @@
     </div>
  
     <div class="row">
-      
+      corpo
         <footer class="footer container">
-                
+           Footer     
         </footer>
 </div>
 
@@ -250,12 +250,11 @@
             <form id="formEdicaoWBI" name="formEdicaoWBI" action="/wbi/alterar" method="POST">
               <div class="modal-body">
 
-
+               
                      
                   <div class="row">
                     <div class="input-field col s12">
                      <span for="first_name">Descrição:</span>
-                     <input  id="id" name="id" type="hidden" ">
                       <input  id="nome" name="nome" type="text" class="validate">
                       
                     </div>
@@ -324,76 +323,7 @@
 
                 </div>
                 <div  class="col-3">
-                  <button id="gravarEdicao" type='button' class="btn btn-primary" onclick="alteracaoWBI()">Gravar </button>
-                </div>
-
-              </div>
-              
-            
-              
-            </div>
-          
-        </div>
-      </div>
-    </div>
-
-    <!-- Formulário de Vinculo Indicador e Usuário -->
-    <div class="modal fade painelForm" id="modalWBIUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">WBI - Usuarios:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-            <form id="formWBIUsuario" name="formWBIUsuario" action="/wbi/vincular" method="POST">
-              <div class="modal-body">
-
-                <div class="row">
-                  <div class="input-field col s12">
-                   <span for="first_name">WBI: <label id="labelWbi"></label></span>
-                   <input  id="id" name="id" type="hidden" ">
-                                         
-                  </div>
-                </div>
-                <div class="col-10">
-                  <label>Pesquisar</label>
-                  <input type="text" id="pesquisaWBIUsuario" name="pesquisaWBIUsuario">
-                </div>
-                     
-                  <div class="row">
-                    <div class="input-field col s12">
-                     <span for="first_name">Usuarios:</span>
-           
-                  <div id="ListaUsuarios">
-                      
-                  </div>
-                     
-                          
-                                           
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    
-                  </div>
-                  
-                  
-              </div>
-            </form>
-            <div class="modal-footer">
-              <div class="row container">
-                  <div  class="col-6 center-align"> 
-                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
-                </div>
-                <div class="col-3">
-                
-                  <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
-
-                </div>
-                <div  class="col-3">
-                  <button id="gravarEdicao" type='button' class="btn btn-primary" onclick="alteracaoWBI()">Gravar </button>
+                  <button id="gravarEdicao" type='button' class="btn btn-primary">Gravar </button>
                 </div>
 
               </div>
@@ -412,6 +342,7 @@
     <script type="text/javascript" src="/js/popper.min.js"  ></script>
     <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="/js/axios.js"></script>
+    <!-- <script type="text/javascript" src="/js/controleWBI.js"></script> -->
     <script type="text/javascript" src="/js/controleWBI.js"></script>
     <script>
         $(document).ready(function() {

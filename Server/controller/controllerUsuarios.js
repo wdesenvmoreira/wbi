@@ -14,6 +14,16 @@ const findAll = async() =>{
     
 } 
 
+const listarUsuarios = async() =>{
+    
+    try {
+        return await knex('usuarios').select('id', 'usuario')
+    } catch (error) {
+        return error
+    }
+    
+}
+
 // Pesquisa usuario por  sua id. 
 const findById = async(id) =>{
     try {
@@ -166,4 +176,4 @@ const acessar = async(usuario, senha) => {
        }))
     //senhahasheada = (encodepassword, senha) => bcrypt.compareSync(senha, encodePassword)
 }
-module.exports = { findAll, findById, create, deletar, update, findByUsuario, acessar, verificarUsuario, verificaSenha, findUsuario}
+module.exports = { findAll, findById, create, deletar, update, findByUsuario, acessar, verificarUsuario, verificaSenha, findUsuario, listarUsuarios}

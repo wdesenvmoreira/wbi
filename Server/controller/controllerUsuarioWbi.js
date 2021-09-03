@@ -3,7 +3,7 @@ const knex = require('../database/connection')
 
 
 const listaWbiUsuario = async(id) => {
-    return await knex.select('indicadores_usuarios.id','usuario', 'id_indicador', 'incluir', 'editar', 'excluir', 'nome', 'titulo').from('indicadores')
+    return await knex.select('indicadores_usuarios.id','usuario', 'usuarios.id', 'id_indicador', 'incluir', 'editar', 'excluir', 'nome', 'titulo').from('indicadores')
         .leftJoin('indicadores_usuarios', 'indicadores.id', 'indicadores_usuarios.id_indicador')
        // .innerJoin('usuarios', 'usuarios.id','=','indicadores_usarios.id_usuario' )
         .leftJoin('usuarios', 'usuarios.id', 'indicadores_usuarios.id_usuario')
@@ -11,6 +11,17 @@ const listaWbiUsuario = async(id) => {
         .where('usuarios.id',id)
 
 }
+
+const listarByInd = async(id) => {
+    return await knex.select('indicadores_usuarios.id','usuario', 'id_usuario', 'id_indicador', 'incluir', 'editar', 'excluir', 'nome', 'titulo').from('indicadores')
+        .leftJoin('indicadores_usuarios', 'indicadores.id', 'indicadores_usuarios.id_indicador')
+       // .innerJoin('usuarios', 'usuarios.id','=','indicadores_usarios.id_usuario' )
+        .leftJoin('usuarios', 'usuarios.id', 'indicadores_usuarios.id_usuario')
+        //.leftJoin('usuarios', 'usuarios.id', 'indicadores_usuarios.id_usuario')
+        .where('id_indicador',id)
+
+}
+
 
 const alterar = async(id, dados) => {   
     try {
@@ -22,4 +33,4 @@ const alterar = async(id, dados) => {
     }
 }
 
-module.exports={ listaWbiUsuario, alterar}                   
+module.exports={ listaWbiUsuario, alterar, listarByInd}                   

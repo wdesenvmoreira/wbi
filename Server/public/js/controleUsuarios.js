@@ -152,15 +152,12 @@ async function deletarUsuario(id){
 
 async function alterarUsuario(id){
     let edicao = document.getElementById(`edicaoUsuario${id}`).checked
-    console.log('edição antes: ', edicao)
     
     let usuarios ={
         id: id,
         edicao: edicao
     }
-    console.log('id: ', id)
-    console.log('edicao: ', edicao)
-    console.log('alteração usuarios: ', usuarios)
+
      let retorno = await axios.post(`http://localhost:5412/usuarios/alterar`, usuarios)
      .then(response => response.data)
     .catch((error) => {

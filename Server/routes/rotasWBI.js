@@ -29,16 +29,42 @@ const rotasWBI = (app) => {
         res.render('WBI/wbi')
     })
 
-    app.post('/wbi/incluir', async(req, res) => {
-        //req.body.edicao=='Sim'?req.body.edicao=true:req.body.edicao=false
-        console.log('req.body: ', req.body)
-        const wbi = { ...req.body}
-        console.log('WBI depois: ',wbi)
-        const incluir = await ctrlWBI.create(wbi)
+    app.get('/wbi/:ind', async(req, res) => {
+        let indicadores 
+       
+        if(req.params.ind == 'todos'){
+             indicadores = await ctrlWBI.findAll(req.params.ind)
+        }else{                   
+             indicadores = await ctrlWBI.findByWBI(req.params.ind)
+             
+        }
+        res.json(indicadores)
+    })
 
-            console.log('retorno incluir: ',wbi)
-            res.json(incluir)
+    app.post('/wbi/incluir', async(req, res) => {
+        const wbi = { ...req.body}
+        const incluir = await ctrlWBI.create(wbi)
+        res.json(incluir)
         
+    })
+
+    app.post('/wbi/alterar', async(req, res)=>{
+        let alterar = await ctrlWBI.update(req.body.id, req.body)
+        if(alterar){
+            res.json(alterar)
+        }else{
+            res.send('Registro não alterado. ')
+        }
+    })
+
+    
+    app.delete('/wbi/delete/:id',async(req, res) => {
+        const deletar = await ctrlWBI.deletar(req.params.id)
+        if(deletar==1){          
+           res.json(deletar) 
+        }else{
+            res.json(deletar.msg)
+        }
         
     })
 

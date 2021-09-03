@@ -7,7 +7,7 @@ const passport = require('passport')
 const findAll = async() =>{
     
     try {
-        return await knex('indicadores').select('id', 'nome', 'titulo', `dado`,`width`, `height`, `chartType`, `options` )
+        return await knex('indicadores').select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
       
     }
     catch (error) {
@@ -19,9 +19,9 @@ const findAll = async() =>{
 const findById = async(id) =>{
     try {
   
-           const registro = knex('indicadores')
+           const registro = await knex('indicadores')
                             .where('id', id)
-                            .select('id', 'nome', 'titulo', `dado`,`width`, `height`, `chartType`, `options` )
+                            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
                             .first()     
             return registro
     } catch (error) {
@@ -34,7 +34,7 @@ const findById = async(id) =>{
 // Irá verificar se o WBI existe através da id do WBI ou do nome do usuário. 
 // Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByWBI senão a pesquisa será por nome de ususario . 
 const findByWBI = async(ind) => {
-    console.log('findByWBI: ', ind)
+    
     if(ind / 1 || ind == 0){
 
         let wbi = []
@@ -43,10 +43,11 @@ const findByWBI = async(ind) => {
          
     }else{
         try {
-
+            
             ind = ind.trim()
             return await knex('indicadores')
-            .where('ind', 'like', `%${ind}%`)
+            .where('titulo', 'like', `%${ind}%`)
+            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
         
         } catch (error) {
             return error
@@ -54,26 +55,6 @@ const findByWBI = async(ind) => {
     }
 }
 
-// const findWBI = async(usuario) => {
-
-//     if(usuario / 1 || usuario == 0){
-
-//         let user = []
-//         user.push(await findById(usuario))
-//         return user
-         
-//     }else{
-//         try {
-
-//             usuario = usuario.trim()
-//             return await knex('usuarios')
-//             .where('usuario', '=', `${usuario}`)
-        
-//         } catch (error) {
-//             return error
-//         }
-//     }
-// }
 
 // Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
 // Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 

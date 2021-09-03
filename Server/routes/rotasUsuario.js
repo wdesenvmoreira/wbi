@@ -83,15 +83,6 @@ const rotaUsuario = (app) =>{
         }
         
     })
-
-//     app.post('/usuarios/alterar/:id', async(req, res)=>{
-//         let alterar = await ctrlUsuarios.update(req.params.id, req.body)
-//         if(alterar){
-//             res.json(alterar)
-//         }else{
-//             res.send('Registro não alterado. ')
-//         }
-//    })
   
 app.post('/usuarios/alterar', async(req, res)=>{
     console.log('req.body altearar: ', req.body)

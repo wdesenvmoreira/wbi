@@ -14,7 +14,7 @@ async function buscarWBI(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/indicadoresapi/${busca}`)
+        dados = await axios.get(`http://localhost:5412/wbi/${busca}`)
         .then(response => {
            
             return response.data
@@ -46,12 +46,15 @@ async function preencherTabela(busca){
                         <td>${wbi.chartType}</td>
                         <td>${wbi.options}</td>
                          <td >
-                            <a onclick="setarWBIAlterar(${wbi.id})" data-toggle="modal" data-target="#modalAlterar">
-                                <i class="material-icons prefix">password</i> 
+                            <a onclick="setarWBIAlterar(${wbi.id})" data-toggle="modal" data-target="#modalEditar">
+                                <i class="material-icons prefix">apps</i> 
                             </a>
                         </td>
-                       
-                         <td onclick="listarUW(${wbi.id})"><a><i class="material-icons prefix">apps</i></a></td>
+                        <td >
+                        <a onclick="lista(${wbi.id})" data-toggle="modal" data-target="#modalWBIUsuario">
+                        <i class="small material-icons">insert_chart</i>
+                        </a>
+                    </td>
                         <td><a onclick="deletarWBI(${wbi.id})"><i class="material-icons prefix">delete</i></a></td>`
                     
         corpoTabela.appendChild(tr)
@@ -61,11 +64,26 @@ async function preencherTabela(busca){
 }
 
 
-function setarWBIlterar(id,wbi){
-    let idAlterar = document.getElementById('idWBIAlterar')
-    let wbiAlterar = document.getElementById('wbiAlterar')
-    wbiAlterar.innerText = wbi
-    idAlterar.value = id;
+async function  setarWBIAlterar(id){
+    let divMsg  = document.getElementById('divMsg')
+    divMsg.innerText=""
+    let formEdicaoWBI = document.getElementById('formEdicaoWBI')
+    formEdicaoWBI.reset() 
+
+    let dadosbusca = await buscarWBI(id)
+    let dados = dadosbusca[0]
+    
+    formEdicaoWBI.id.value = id
+    formEdicaoWBI.nome.value = dados.nome
+    formEdicaoWBI.titulo.value = dados.titulo
+    formEdicaoWBI.width.value = dados.width
+    formEdicaoWBI.height.value = dados.height
+    formEdicaoWBI.dados.value = dados.dados
+    formEdicaoWBI.options.value = dados.options
+    formEdicaoWBI.chartType.value = dados.chartType
+
+
+
 }
 
 function limpartabela(){
@@ -137,7 +155,7 @@ function limparFormulario(){
 }
 
 async function deletarWBI(id){
-    let retorno = await axios.delete(`http://localhost:5412/indicadoresapi/delete/${id}`)
+    let retorno = await axios.delete(`http://localhost:5412/wbi/delete/${id}`)
     .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -153,49 +171,17 @@ async function deletarWBI(id){
     
 }
 
-async function alterarWBI(id){
-    
-    let wbi ={
-        id: id,
-       nome: nome,
-       titulo: titulo, 
-       dados: dados,
-       width : width,
-       height : height,
-       chartType: chartType,
-       options : options
-    }
-    console.log('id: ', id)
-    console.log('edicao: ', edicao)
-    console.log('alteração wbis: ', wbi)
-     let retorno = await axios.post(`http://localhost:5412/indicadoresapi/alterar`, wbi)
-     .then(response => response.data)
-    .catch((error) => {
-      throw error.response.data
-    })
-    console.log('retorno da alteração: ', retorno)
-    if(retorno==1){
-        // document.getElementById(`edicaoUsuario${id}`).checked=edicao
-        M.toast({html: `<span class='blue red-4' >Registro ${id} Alterado com sucesso</span>`, classes: 'rounded'});
-        // limpartabela()
-        // preencherTabelaUsuarios(id)
-    }else{
-        M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Alterar o Registro ${id}. Verifique </span>`, classes: 'rounded'});
-       // limpartabela()
-       // preencherTabelaUsuarios(id)
-    }
-    
-}
 
 async function alteracaoWBI(){
-
-    let nome = document.getElementById('nome').value
-    let titulo   = document.getElementById('titulo').value
-    let dados  = document.getElementById('dados').value
-    let width = document.getElementById('width').value
-    let height = document.getElementById('height').value
-    let chartType = document.getElementById('chartType').value
-    let options = document.getElementById('options').value
+      let formEdicaoWBI = document.getElementById('formEdicaoWBI')
+      let id      = formEdicaoWBI.id.value
+      let nome    = formEdicaoWBI.nome.value 
+      let titulo  = formEdicaoWBI.titulo.value 
+      let width   = formEdicaoWBI.width.value 
+      let height  = formEdicaoWBI.height.value 
+      let dados   = formEdicaoWBI.dados.value 
+      let options = formEdicaoWBI.options.value 
+      let chartType = formEdicaoWBI.chartType.value 
     
     let wbi ={
         id: id,
@@ -209,17 +195,23 @@ async function alteracaoWBI(){
     }
 
    
-     let retorno = await axios.post(`http://localhost:5412/indicadoresapi/alterar`, wbi)
+     let retorno = await axios.post(`http://localhost:5412/wbi/alterar`, wbi)
      .then(response => response.data)
     .catch((error) => {
       throw error.response.data
     })
     console.log('retorno da alteração: ', retorno)
     if(retorno==1){
+        
         // document.getElementById(`edicaoUsuario${id}`).checked=edicao
         M.toast({html: `<span class='blue red-4' >Registro ${id} Alterado com sucesso</span>`, classes: 'rounded'});
-        // limpartabela()
-        // preencherTabelaUsuarios(id)
+        
+        
+        
+        $('#modalEditar').modal('hide')
+        limpartabela()
+        preencherTabela(id)
+         
     }else{
         M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Alterar o Registro ${id}. Verifique </span>`, classes: 'rounded'});
        // limpartabela()
@@ -228,77 +220,79 @@ async function alteracaoWBI(){
     
 }
 
+async function lista (id){
 
-async function listarUW(id){
-    const conteudoUW = document.getElementById('conteudoUW')
-    let corpoTabela = document.getElementById('corpoTabelaUW')
+    console.log('lista',id)
+
+    const ListaUsuarios = document.getElementById('ListaUsuarios')
+    
     
     sairPainelUW()
 
-    while (corpoTabela.childElementCount >0) {
-        corpoTabela.removeChild(corpoTabela.children[0])
+    while (ListaUsuarios.childElementCount >0) {
+        ListaUsuarios.removeChild(ListaUsuarios.children[0])
     }
 
-    const retorno = await axios.get(`http://localhost:5412/uw/${id}`)
+    let retorno = await axios.get(`http://localhost:5412/uwind/${id}`)
     .then(response => response.data)
     .catch( (error)=> {
         throw error.response.data
     })
-
+    console.log('retorno: ', retorno);
+  
     if(retorno.length > 0){
-        let cabecalhoUW = document.getElementById('cabecalhoUW')
-        cabecalhoUW.innerText = retorno[0].usuario
-        let tabelaUW =document.getElementById('tabelaUW') 
-
-        
-        
-       
-
+         
         retorno.forEach(uw => {
-            const tr = document.createElement('tr')
-            tr.innerHTML = `
-                            <td>${uw.id_indicador}</td>
-                            <td class="container">${uw.nome}</td>
-                            <td class="container">${uw.titulo}</td>
-                            <td>
-                                <div class="switch">
-                                    <label>
-                                        Não
-                                        <input id="incluirwbi${uw.id}" onclick="alterarUW(${uw.id},1)"  type="checkbox">
-                                        <span class="lever"></span>
-                                        Sim
-                                    </label>
-                                </div>
-                             </td>
-                             <td>
-                             <div class="switch">
-                                 <label>
-                                     Não
-                                     <input id="editarwbi${uw.id}" onclick="alterarUW(${uw.id},2)" type="checkbox">
-                                     <span class="lever"></span>
-                                     Sim
-                                 </label>
-                             </div>
-                          </td>
-                          <td>
-                          <div class="switch">
-                              <label>
-                                  Não
-                                  <input id="excluirwbi${uw.id}" onclick="alterarUW(${uw.id},3)" type="checkbox">
-                                  <span class="lever"></span>
-                                  Sim
-                              </label>
-                          </div>
-                       </td>
+            const p = document.createElement('p')
+            console.log('usuario:', uw.usuario,'checkd:', uw.checkd)
+            let ckd =''
+             if(uw.checkd ){ckd = 'checked'}
+            p.innerHTML = `
+                            <label>
+                                <input id=${uw.id_usuario} type="checkbox" class="filled-in" ${ckd} />
+                                <span>${uw.usuario}</span>
+                            </label>
+                            
                         `
-                        
-            corpoTabela.appendChild(tr)
-            document.getElementById(`incluirwbi${uw.id}`).checked = uw.incluir
-            document.getElementById(`editarwbi${uw.id}`).checked = uw.editar
-            document.getElementById(`excluirwbi${uw.id}`).checked = uw.excluir
+                        ListaUsuarios.appendChild(p)
         })
-        conteudoUW.style.display = 'block'
-        tabelaUW.style.display = 'block'
+        
+    }else{
+        M.toast({html: `<span class='purple darken-4 text-blue-dark-4' >Não há WBI para esse usuario. </span>`,  classes: 'rounded'});
+    }
+}
+async function listarWBIUsuarios(id){console.log('listarWBIUsuarios')
+    const ListaUsuarios = document.getElementById('ListaUsuarios')
+    
+    
+    sairPainelUW()
+
+    while (ListaUsuarios.childElementCount >0) {
+        ListaUsuarios.removeChild(ListaUsuarios.children[0])
+    }
+
+    let retorno = await axios.get(`http://localhost:5412/uwind/${id}`)
+    // .then(response => response.data)
+    // .catch( (error)=> {
+    //     throw error.response.data
+    // })
+    console.log('retorno: ', retorno);
+  
+    if(retorno.length > 0){
+         
+        retorno.forEach(uw => {
+            const p = document.createElement('p')
+            console.log('usuario:', uw.usuario,'checkd:', uw.checkd)
+            p.innerHTML = `
+                            <label>
+                                <input id=${uw.id} type="checkbox" class="filled-in" checked="${uw.checkd}" />
+                                <span>${uw.usuario}</span>
+                            </label>
+                            
+                        `
+                        ListaUsuarios.appendChild(p)
+        })
+        
     }else{
         M.toast({html: `<span class='purple darken-4 text-blue-dark-4' >Não há WBI para esse usuario. </span>`,  classes: 'rounded'});
     }
@@ -361,4 +355,7 @@ function sairPainelUW(){
     tabelaUW.style.display = 'none'
 }
 
+function listarWBIUsuarios(){
+
+}
 
