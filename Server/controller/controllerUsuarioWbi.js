@@ -22,6 +22,23 @@ const listarByInd = async(id) => {
 
 }
 
+const verificarExistente = async(iduw, idu) =>{
+    
+    let uw =  await knex.select('indicadores_usuarios.id', 'id_usuario', 'id_indicador' ).from('indicadores_usuarios')
+        .where('id_usuario',idu)
+    console.log('na verificação iduw: ', iduw, ' - idu: ', idu)
+    console.log('Na verificação o retorno da pesquisa: ', uw)
+    uw.forEach(u_w =>{
+        console.log('u_w.id_indicador: ', u_w.id_indicador)
+        if(u_w.id_indicador == iduw){
+            console.log('Verificação : exite')
+            return true
+        }
+    })
+    console.log('Verificação :Não exite')
+          
+    return false
+}
 
 const alterar = async(id, dados) => {   
     try {
@@ -33,4 +50,45 @@ const alterar = async(id, dados) => {
     }
 }
 
-module.exports={ listaWbiUsuario, alterar, listarByInd}                   
+const create = async(user) => {   
+    console.log('user no create: ', user)
+console.log('Existe: ', verificarExistente(user.id_indicador, user.id_usuario))
+        if(!verificarExistente(user.id_indicador, user.id_usuario)){
+            console.log('Verificou que usuario já esta cadastrado. ')
+            return false
+        }else{ console.log('Verificou que não exite')
+            try {
+            let retorno    
+            retorno = await knex('indicadores_usuarios').insert([
+                {id_usuario: parseInt(user.id_usuario), id_indicador: parseInt(user.id_indicador), incluir: false, editar: false, excluir: false} 
+            ])
+            return retorno
+
+            } catch (error) {
+                console.log('Error: ', error)
+                return error
+            }
+        }
+        
+   
+ }
+ 
+ 
+ const deletar = async(id) =>{
+     console.log('No CtrlUsuarioWbi id a ser excluído é: ', id)
+     if(id != 1){
+         try {
+         return await knex('indicadores_usuarios')
+                         .where({ id })
+                         .del()
+         } catch (error) {
+             return error
+         }
+     }else{
+         return {"msg":'Este WBI não pode ser excluido!'}
+     }
+     
+ 
+ }
+
+module.exports={ listaWbiUsuario, alterar, listarByInd, create, deletar}                   

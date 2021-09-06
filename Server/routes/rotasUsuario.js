@@ -60,13 +60,9 @@ const rotaUsuario = (app) =>{
     })
 
     app.post('/usuarios/incluir', async(req, res) => {
-        //req.body.edicao=='Sim'?req.body.edicao=true:req.body.edicao=false
-        console.log('req.body: ', req.body)
-        const usuario = { ...req.body}
-        console.log('usuario depois: ',usuario)
-        const incluir = await ctrlUsuarios.create(usuario)
 
-            console.log('retorno incluir: ',incluir)
+        const usuario = { ...req.body}
+        const incluir = await ctrlUsuarios.create(usuario)
             res.json(incluir)
         
         

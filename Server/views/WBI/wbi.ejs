@@ -342,61 +342,43 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">WBI - Usuarios:</h5>
+            <h5 class="modal-title" id="exampleModalLabel">WBI:</h5>
+            <div class="input-field col s12">
+              <span for="first_name" id="labelWbi"></span>
+              <input  id="idUWind" name="idUWind" type="hidden">
+                                    
+             </div>
             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
             <form id="formWBIUsuario" name="formWBIUsuario" action="/wbi/vincular" method="POST">
               <div class="modal-body">
-
-                <div class="row">
-                  <div class="input-field col s12">
-                   <span for="first_name">WBI: <label id="labelWbi"></label></span>
-                   <input  id="id" name="id" type="hidden" ">
-                                         
-                  </div>
-                </div>
-                <div class="col-10">
-                  <label>Pesquisar</label>
-                  <input type="text" id="pesquisaWBIUsuario" name="pesquisaWBIUsuario">
-                </div>
-                     
+                    
                   <div class="row">
                     <div class="input-field col s12">
                      <span for="first_name">Usuarios:</span>
-           
-                  <div id="ListaUsuarios">
-                      
-                  </div>
+                      <div></div>
+                    <div id="ListaUsuarios">
+                        
+                    </div>
                      
                           
                                            
                     </div>
-                  </div>
-
-                  <div class="row">
-                    
-                  </div>
-                  
-                  
+                  </div>       
               </div>
             </form>
             <div class="modal-footer">
-              <div class="row container">
-                  <div  class="col-6 center-align"> 
-                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
-                </div>
-                <div class="col-3">
+              
+                <div class="col-12 container">
                 
                   <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
 
                 </div>
-                <div  class="col-3">
-                  <button id="gravarEdicao" type='button' class="btn btn-primary" onclick="alteracaoWBI()">Gravar </button>
-                </div>
+ 
 
-              </div>
+           
               
             
               

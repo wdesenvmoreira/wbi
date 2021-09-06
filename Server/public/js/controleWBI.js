@@ -1,10 +1,10 @@
 async function buscarWBI(busca){
     let dados
     
-    console.log('busca antes: ', busca)
+
     
    if(busca/1 || busca==0 && !busca.match(/^(\s)+$/) && busca !=''){
-       console.log('é número')
+
        busca = busca
    }else{
    
@@ -12,7 +12,7 @@ async function buscarWBI(busca){
             busca = 'todos'
         }
     }
-    console.log('busca?depois> ', busca)
+
     
         dados = await axios.get(`http://localhost:5412/wbi/${busca}`)
         .then(response => {
@@ -31,7 +31,7 @@ async function preencherTabela(busca){
     const tabelaWBI = document.getElementById('tabelaWBI')
     const corpoTabela = document.getElementById('corpoTabela')
     let dados = await buscarWBI(busca)
-    console.log('dados: ',dados);
+
     sairPainelUW()
 
    await dados.forEach(wbi => {
@@ -51,7 +51,7 @@ async function preencherTabela(busca){
                             </a>
                         </td>
                         <td >
-                        <a onclick="lista(${wbi.id})" data-toggle="modal" data-target="#modalWBIUsuario">
+                        <a onclick="listaWBIUsuario(${wbi.id},'${wbi.nome}')" data-toggle="modal" data-target="#modalWBIUsuario">
                         <i class="small material-icons">insert_chart</i>
                         </a>
                     </td>
@@ -103,7 +103,7 @@ document.getElementById("pesquisaWBI").addEventListener("input", ()=>{
 
 let gravar = document.getElementById('gravar')
 
-gravar.addEventListener('click',async(event)=>{console.log('gravando.')
+gravar.addEventListener('click',async(event)=>{
     event.preventDefault()
     let nome = document.getElementById('nome').value
     let titulo   = document.getElementById('titulo').value
@@ -129,7 +129,7 @@ gravar.addEventListener('click',async(event)=>{console.log('gravando.')
         if(titulo != '' && titulo != undefined ){
                 //document.getElementById('formwbi').submit()
                 retorno = await axios.post(`http://localhost:5412/wbi/incluir`,{nome, titulo, dados, width, height, chartType, options})
-                console.log('retorno: ', retorno.data)
+                
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
                     limpartabela()
@@ -160,7 +160,7 @@ async function deletarWBI(id){
     .catch((error) => {
       throw error.response.data
     })
-    console.log('retorno deletar: ', retorno)
+   
     if(retorno==1){
         M.toast({html: `<span class='blue red-4' >Registro ${id} deletado com sucesso</span>`, classes: 'rounded'});
         limpartabela()
@@ -200,7 +200,7 @@ async function alteracaoWBI(){
     .catch((error) => {
       throw error.response.data
     })
-    console.log('retorno da alteração: ', retorno)
+    
     if(retorno==1){
         
         // document.getElementById(`edicaoUsuario${id}`).checked=edicao
@@ -220,12 +220,12 @@ async function alteracaoWBI(){
     
 }
 
-async function lista (id){
-
-    console.log('lista',id)
-
+async function listaWBIUsuario (id, nome){
+     
     const ListaUsuarios = document.getElementById('ListaUsuarios')
-    
+    let label = document.getElementById('labelWbi')
+    label.innerHTML =  `<span>${id} - ${nome}</span>`
+    document.getElementById('idUWind').value = id
     
     sairPainelUW()
 
@@ -233,24 +233,27 @@ async function lista (id){
         ListaUsuarios.removeChild(ListaUsuarios.children[0])
     }
 
+    
     let retorno = await axios.get(`http://localhost:5412/uwind/${id}`)
     .then(response => response.data)
     .catch( (error)=> {
         throw error.response.data
     })
-    console.log('retorno: ', retorno);
+   
   
     if(retorno.length > 0){
          
         retorno.forEach(uw => {
             const p = document.createElement('p')
-            console.log('usuario:', uw.usuario,'checkd:', uw.checkd)
+            
             let ckd =''
              if(uw.checkd ){ckd = 'checked'}
             p.innerHTML = `
-                            <label>
-                                <input id=${uw.id_usuario} type="checkbox" class="filled-in" ${ckd} />
+                            <label class="eUsuario">
+                                <input id=ckd${uw.id_usuario} type="checkbox" class="filled-in" ${ckd}  onclick="vinculoUW(${uw.iduw} , ckd${uw.id_usuario}, ${uw.id_usuario}, ${id}, '${nome}' )"/>
                                 <span>${uw.usuario}</span>
+                                <input type='hidden' id="uw${uw.id_usuario}" value="${uw.iduw}">
+                                <input type='hidden' id="user${uw.id_usuario}" value="${uw.usuario}">
                             </label>
                             
                         `
@@ -261,42 +264,7 @@ async function lista (id){
         M.toast({html: `<span class='purple darken-4 text-blue-dark-4' >Não há WBI para esse usuario. </span>`,  classes: 'rounded'});
     }
 }
-async function listarWBIUsuarios(id){console.log('listarWBIUsuarios')
-    const ListaUsuarios = document.getElementById('ListaUsuarios')
-    
-    
-    sairPainelUW()
 
-    while (ListaUsuarios.childElementCount >0) {
-        ListaUsuarios.removeChild(ListaUsuarios.children[0])
-    }
-
-    let retorno = await axios.get(`http://localhost:5412/uwind/${id}`)
-    // .then(response => response.data)
-    // .catch( (error)=> {
-    //     throw error.response.data
-    // })
-    console.log('retorno: ', retorno);
-  
-    if(retorno.length > 0){
-         
-        retorno.forEach(uw => {
-            const p = document.createElement('p')
-            console.log('usuario:', uw.usuario,'checkd:', uw.checkd)
-            p.innerHTML = `
-                            <label>
-                                <input id=${uw.id} type="checkbox" class="filled-in" checked="${uw.checkd}" />
-                                <span>${uw.usuario}</span>
-                            </label>
-                            
-                        `
-                        ListaUsuarios.appendChild(p)
-        })
-        
-    }else{
-        M.toast({html: `<span class='purple darken-4 text-blue-dark-4' >Não há WBI para esse usuario. </span>`,  classes: 'rounded'});
-    }
-}
 
 async function alterarUW(id, op){
     let uwbi = {
@@ -321,19 +289,12 @@ async function alterarUW(id, op){
     }
    
 
-    
-    // let usuarios ={
-    //     id, incluir, editar, excluir
-    // }
-
-    console.log('id: ', id)
-    console.log('wbi: ', uwbi)
      let retorno = await axios.put(`http://localhost:5412/uw/alterar`, uwbi)
      .then(response => response.data)
      .catch((error) => {
       throw error.response.data
     })
-    console.log('retorno da alteração: ', retorno)
+   
     if(retorno==1){
         // document.getElementById(`edicaoUsuario${id}`).checked=edicao
         M.toast({html: `<span class='blue red-4' >Registro ${id} Alterado com sucesso</span>`, classes: 'rounded'});
@@ -355,7 +316,78 @@ function sairPainelUW(){
     tabelaUW.style.display = 'none'
 }
 
-function listarWBIUsuarios(){
+
+async function gravarUW(id, iduser){
+    let retorno
+
+        let usuarios = {
+                id_indicador: parseInt(id),
+                id_usuario: iduser
+            }
+             retorno = await axios.put(`http://localhost:5412/uw/gravarUsuarios`, usuarios)
+            .then(response => response.data)
+            .catch((error) => {
+            throw error.response.data
+            
+        })
+           
+            if(retorno){
+                // document.getElementById(`edicaoUsuario${id}`).checked=edicao
+                M.toast({html: `<span class='blue red-4' >Indicador vinculado ao usuário, ${iduser}  com sucesso</span>`, classes: 'rounded'});
+                // limpartabela()
+                // preencherTabelaUsuarios(id)
+            }else{
+                M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao vincular indicador ao usuário, ${iduser}. Verifique </span>`, classes: 'rounded'});
+            // limpartabela()
+            // preencherTabelaUsuarios(id) 
+            }
+  
+}
+
+async function deletaruW(id){
+
+    let retorno
+
+        let iduw = parseInt(id)
+       
+        retorno = await axios.delete(`http://localhost:5412/uw/delete/${iduw}`)
+        .then(response => response.data)
+        .catch((error) => {
+        throw error.response.data
+   })
+
+    if(retorno==1){
+        // document.getElementById(`edicaoUsuario${id}`).checked=edicao
+        M.toast({html: `<span class='blue red-4' >Retirado vinculo do indicador ao usuário ${id}  com sucesso</span>`, classes: 'rounded'});
+        // limpartabela()
+        // preencherTabelaUsuarios(id)
+    }else{
+        M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Vincular Indicador ao Usuario ${id}. Verifique </span>`, classes: 'rounded'});
+    // limpartabela()
+    // preencherTabelaUsuarios(id)
+    }
 
 }
 
+function vinculoUW(uw, el, induser, id, nome){
+    
+    let indicador = parseInt(document.getElementById('idUWind').value)
+    let usuario = parseInt(induser)
+    let iuw = parseInt(uw)
+  
+    if(el.checked){
+
+        gravarUW(indicador, usuario)
+    }else{
+
+        if(iuw != 0){
+            deletaruW(iuw)
+        }else{
+            console.log('Esta tentando excluir um registro inexistente. Informe ao Administrador!!!')
+        }
+
+        
+    }
+    listaWBIUsuario(id, nome)
+
+}

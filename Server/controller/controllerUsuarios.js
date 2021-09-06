@@ -104,7 +104,7 @@ const verificaSenha = (usuario, senha) =>{
     //return senhaHash;
 }
 const create = async(novosdados) => {   
-
+    console.log('gravando esses dados', novosdados) 
    const usuarioExiste = await verificarUsuario(novosdados.usuario)
     if (!usuarioExiste) {
         try {
