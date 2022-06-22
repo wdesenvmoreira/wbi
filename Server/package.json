@@ -31,7 +31,7 @@
     "materialize-css": "^1.0.0-rc.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
